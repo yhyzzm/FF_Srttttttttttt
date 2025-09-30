@@ -10,12 +10,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # 1. 拉取上游仓库完整历史
-      - name: Clone upstream repository
-        run: git clone --mirror https://github.com/AzenKain/Firefly-Srtools.git upstream.git
+      - name: Checkout upstream repository
+        uses: actions/checkout@v4
+        with:
+          repository: AzenKain/Firefly-Srtools
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0  # 拉完整历史
 
       # 2. 推送到你的私有仓库
       - name: Push to private repository
         run: |
-          cd upstream.git
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/yhyzzm/Firefly-Srtools.git
           git push --mirror origin
