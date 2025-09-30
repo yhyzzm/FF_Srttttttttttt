@@ -2,23 +2,20 @@ name: Sync From Upstream
 
 on:
   schedule:
-    - cron: "0 */6 * * *"
-  workflow_dispatch:
+    - cron: "0 */6 * * *"  # 每 6 小时 UTC 同步一次
+  workflow_dispatch:       # 支持手动触发
 
 jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      # 拉取上游仓库
-      - name: Checkout upstream repository
-        uses: actions/checkout@v4
-        with:
-          repository: AzenKain/Firefly-Srtools
-          token: ${{ secrets.GITHUB_TOKEN }}
-          fetch-depth: 0
+      # 拉取上游仓库完整历史
+      - name: Clone upstream repository
+        run: git clone --mirror https://github.com/AzenKain/Firefly-Srtools.git upstream.git
 
-      # 推送到你的仓库
-      - name: Push to private repository
+      # 推送到你的仓库（使用 GITHUB_TOKEN 认证）
+      - name: Push to repository
         run: |
+          cd upstream.git
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/yhyzzm/FF_Srttttttttttt.git
           git push --mirror origin
