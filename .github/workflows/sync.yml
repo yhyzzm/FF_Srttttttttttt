@@ -9,16 +9,16 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      # 拉上游仓库
+      # 拉取上游仓库
       - name: Checkout upstream repository
         uses: actions/checkout@v4
         with:
           repository: AzenKain/Firefly-Srtools
-          token: ${{ secrets.GITHUB_TOKEN }} # 自动提供
-          fetch-depth: 0                    # 拉完整历史
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
 
       # 推送到你的仓库
-      - name: Push to new repository
+      - name: Push to private repository
         run: |
-          git remote set-url origin https://github.com/yhyzzm/FF_Srttttttttttt.git
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/yhyzzm/FF_Srttttttttttt.git
           git push --mirror origin
