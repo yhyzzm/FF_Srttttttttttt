@@ -2,7 +2,7 @@ name: Sync From Upstream
 
 on:
   schedule:
-    - cron: "0 */6 * * *"   # 每 6 小时触发一次（UTC时间）
+    - cron: "0 */6 * * *"   # 每 6 小时 UTC 同步一次
   workflow_dispatch:       # 支持手动触发
 
 jobs:
@@ -11,8 +11,7 @@ jobs:
     steps:
       # 1. 拉取上游仓库完整历史
       - name: Clone upstream repository
-        run: |
-          git clone --mirror https://github.com/AzenKain/Firefly-Srtools.git upstream.git
+        run: git clone --mirror https://github.com/AzenKain/Firefly-Srtools.git upstream.git
 
       # 2. 推送到你的私有仓库
       - name: Push to private repository
