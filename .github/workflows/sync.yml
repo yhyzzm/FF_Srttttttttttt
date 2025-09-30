@@ -3,15 +3,19 @@ name: Sync From Upstream
 on:
   schedule:
     - cron: "0 3 * * *"   # 每天凌晨3点自动同步（UTC时间，北京时间上午11点）
-  workflow_dispatch:       # 允许手动运行
+  workflow_dispatch:
 
 jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Clone upstream
+      - name: Checkout upstream
+        uses: actions/checkout@v4
+        with:
+          repository: AzenKain/Firefly-Srtools
+          fetch-depth: 0   # 拉完整历史
+
+      - name: Push to my private repo
         run: |
-          git clone --mirror https://github.com/AzenKain/Firefly-Srtools.git upstream.git
-          cd upstream.git
           git remote set-url origin https://github.com/yhyzzm/Firefly-Srtools.git
           git push --mirror origin
